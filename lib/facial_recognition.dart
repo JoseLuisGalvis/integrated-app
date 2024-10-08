@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'facial_recognitionweb.dart';
 import 'global_key.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
 class FacialRecognition {
-  Future<void> detectFaces() async {
+  Future<void> detectFaces(BuildContext context) async {
     final ImagePicker _picker = ImagePicker();
     XFile? image;
 
     // Determinar si usar cámara o selector de imágenes
     if (kIsWeb) {
-      image = await _webCaptureImage();
+      // Usa la clase para web
+      final webRecognition = FacialRecognitionWeb();
+      await webRecognition.detectFaces(context);
+      return; // Termina el método después de la detección en web
     } else if (Platform.isWindows) {
       image = await _windowsCaptureImage();
     } else {
@@ -22,9 +26,7 @@ class FacialRecognition {
     if (image != null) {
       String result = '';
 
-      if (kIsWeb) {
-        result = await _webFaceDetection(image);
-      } else if (Platform.isWindows) {
+      if (Platform.isWindows) {
         result = await _windowsFaceDetection(image);
       } else {
         result = await _mobileFaceDetection(image);
@@ -46,19 +48,9 @@ class FacialRecognition {
     }
   }
 
-  Future<XFile?> _webCaptureImage() async {
-    // Lógica para capturar imagen en la web (ej. usando la API de MediaDevices)
-    return null; // Deberás implementar la captura usando algo como TensorFlow.js.
-  }
-
   Future<XFile?> _windowsCaptureImage() async {
     // Aquí debes integrar una solución como OpenCV para capturar imágenes desde la cámara en Windows.
-    // Se puede usar FFI para interactuar con bibliotecas C++ como OpenCV si decides hacerlo manualmente.
     return null; // Implementar la captura en Windows
-  }
-
-  Future<String> _webFaceDetection(XFile image) async {
-    return 'Detección facial en Web no implementada';
   }
 
   Future<String> _windowsFaceDetection(XFile image) async {
@@ -103,6 +95,7 @@ class FacialRecognition {
     return result;
   }
 }
+
 
 
 

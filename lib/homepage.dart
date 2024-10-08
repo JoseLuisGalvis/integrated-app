@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             GestureDetector(
               onTap: () async {
-                await _facialRecognition.detectFaces();
+                await _facialRecognition.detectFaces(context);
               },
               child: Card(
                 elevation: 4,
