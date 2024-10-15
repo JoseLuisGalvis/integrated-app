@@ -1,14 +1,16 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'facial_recognitionweb.dart';
 import 'global_key.dart';
-import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
 class FacialRecognition {
   Future<void> detectFaces(BuildContext context) async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     XFile? image;
 
     // Determinar si usar cámara o selector de imágenes
@@ -20,7 +22,7 @@ class FacialRecognition {
     } else if (Platform.isWindows) {
       image = await _windowsCaptureImage();
     } else {
-      image = await _picker.pickImage(source: ImageSource.camera);
+      image = await picker.pickImage(source: ImageSource.camera);
     }
 
     if (image != null) {
@@ -35,11 +37,11 @@ class FacialRecognition {
       showDialog(
         context: navigatorKey.currentContext!,
         builder: (context) => AlertDialog(
-          title: Text('Resultado de Detección Facial'),
+          title: const Text('Resultado de Detección Facial'),
           content: Text(result),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],

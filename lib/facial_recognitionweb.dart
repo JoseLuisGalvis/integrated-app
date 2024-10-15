@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:html' as html;
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:js/js_util.dart' as js_util;
@@ -35,21 +36,21 @@ class FacialRecognitionWeb {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Confirmar imagen'),
+        title: const Text('Confirmar imagen'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.network(image.path),
-            Text('¿Desea proceder con el reconocimiento facial?'),
+            const Text('¿Desea proceder con el reconocimiento facial?'),
           ],
         ),
         actions: [
           TextButton(
-            child: Text('Cancelar'),
+            child: const Text('Cancelar'),
             onPressed: () => Navigator.of(context).pop(false),
           ),
           TextButton(
-            child: Text('Proceder'),
+            child: const Text('Proceder'),
             onPressed: () => Navigator.of(context).pop(true),
           ),
         ],
@@ -148,11 +149,11 @@ class FacialRecognitionWeb {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Resultado de Detección Facial'),
+        title: const Text('Resultado de Detección Facial'),
         content: Text(result),
         actions: [
           TextButton(
-            child: Text('OK'),
+            child: const Text('OK'),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],

@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'dart:io';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'global_key.dart';
 
 class TextRecognition {
   Future<void> recognizeText() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
 
     // Aquí puedes permitir al usuario seleccionar entre la cámara y la galería
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
       String result = '';
@@ -27,11 +29,11 @@ class TextRecognition {
       showDialog(
         context: navigatorKey.currentContext!,
         builder: (context) => AlertDialog(
-          title: Text('Texto Reconocido'),
+          title: const Text('Texto Reconocido'),
           content: Text(result),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
@@ -61,7 +63,7 @@ class TextRecognition {
     // Recorremos los bloques de texto detectados
     for (TextBlock block in recognizedText.blocks) {
       for (TextLine line in block.lines) {
-        result += line.text + '\n';  // Añadimos el texto reconocido línea por línea
+        result += '${line.text}\n';  // Añadimos el texto reconocido línea por línea
       }
     }
 

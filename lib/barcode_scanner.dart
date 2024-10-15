@@ -1,15 +1,16 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class BarcodeScanner {
   Future<void> scanBarcode(BuildContext context) async {
     if (kIsWeb || Platform.isWindows) {
       // Para web y Windows, usamos ImagePicker
-      final ImagePicker _picker = ImagePicker();
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
       if (image != null) {
         String result = '';
@@ -45,11 +46,11 @@ class BarcodeScanner {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Resultado de Escaneo de Código'),
+        title: const Text('Resultado de Escaneo de Código'),
         content: Text(result),
         actions: [
           TextButton(
-            child: Text('OK'),
+            child: const Text('OK'),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
@@ -59,6 +60,8 @@ class BarcodeScanner {
 }
 
 class QRViewExample extends StatefulWidget {
+  const QRViewExample({super.key});
+
   @override
   State<StatefulWidget> createState() => _QRViewExampleState();
 }
@@ -71,7 +74,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Escanear Código')),
+      appBar: AppBar(title: const Text('Escanear Código')),
       body: Column(
         children: <Widget>[
           Expanded(
